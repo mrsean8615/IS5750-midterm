@@ -16,3 +16,7 @@ exports.getTrainers = async (req, res) => {
     console.log(err);
   }
 };
+
+exports.getThanks = (req, res) => {
+  res.render("thanks", { title: "Thanks" });
+}

@@ -1,14 +1,19 @@
 const sequelize = require("./database");
 
-const { configModelRelationships } = require("./model-config");
+const modelConfig = require("./model-config");
 
 const Trainer = require("../models/trainer-model");
 const trainerData = require("../data/trainers.json");
 
+const Course = require("../models/course-model");
+const courseData = require("../data/courses.json");
+
 const Event = require("../models/event-model");
 const eventData = require("../data/events.json");
 
-// configModelRelationships();
+const Contact = require("../models/contact-model");
+
+modelConfig.configModelRelations();
 
 sequelize
   .sync({ force: true })
@@ -21,6 +26,10 @@ sequelize
   .then(() => {
     return Event.bulkCreate(eventData);
   })
+  .then(() => {
+    return Course.bulkCreate(courseData);
+  })
+
   .catch((err) => {
     console.log(err);
   });

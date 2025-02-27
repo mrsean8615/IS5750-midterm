@@ -8,4 +8,6 @@ router.get("/", homeController.getHome);
 
 router.get("/about", homeController.getAbout);
 
+router.get("/thanks", homeController.getThanks);
+
 module.exports = router;
