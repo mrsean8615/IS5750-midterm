@@ -25,3 +25,16 @@ exports.getCourse = async (req, res, next) => {
         console.log(err);
     }
 }
+
+exports.getTop3Courses = async (req, res, next) => {
+    try {
+        const courses = await Course.findAll({
+            order: [['likes', 'DESC']],
+            limit: 3,
+            include: Trainer
+        });
+        return courses
+    } catch (err) {
+        console.log(err);
+    }
+}
