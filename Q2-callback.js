@@ -1,36 +1,54 @@
-// Write the code for Question 2a here
+const fs = require("fs");
 
-const fs = require("fs/promises");
+// I really hate this callback hell, but here it is
 
-const runAsyncFunctions = async () => {
-  // write to file
-  try {
-    await fs.writeFile("working.txt", "Creating new file...");
-  } catch (err) {
-    console.error(err);
-  }
-
-  // append to file
-  try {
-    await fs.appendFile("working.txt", "\nHeyo");
-  } catch (err) {
-    console.error(err);
-  }
-
-  // read file
-  try {
-    const data = await fs.readFile("working.txt", "utf8");
-    console.log(data.toString());
-  } catch (err) {
-    console.error(err);
-  }
-
-  // rename file
-  try {
-    await fs.rename("working.txt", "complete.txt");
-  } catch (err) {
-    console.error(err);
-  }
+const writeFile = (callback) => {
+  fs.writeFile("working.txt", "Creating new file...", (err) => {
+    if (err) {
+      console.log("Error writing file:", err);
+      return;
+    }
+    callback();
+  });
 };
 
-runAsyncFunctions();
+const appendFile = (callback) => {
+  fs.appendFile("working.txt", "\nHeyo", (err) => {
+    if (err) {
+      console.log("Error appending to file:", err);
+      return;
+    }
+    callback();
+  });
+};
+
+const readFile = (callback) => {
+  fs.readFile("working.txt", "utf8", (err, data) => {
+    if (err) {
+      console.log("Error reading file:", err);
+      return;
+    }
+    console.log("File contents:", data);
+    callback();
+  });
+};
+
+const renameFile = (callback) => {
+  fs.rename("working.txt", "complete.txt", (err) => {
+    if (err) {
+      console.log("Error renaming file:", err);
+      return;
+    }
+    callback();
+  });
+};
+
+writeFile(() => {
+  appendFile(() => {
+    readFile(() => {
+      renameFile(() => {
+        console.log("All operations completed");
+      });
+    });
+  });
+});
